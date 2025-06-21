@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt';
 import { guestRegex, isDevelopmentEnvironment } from './lib/constants';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
   /*
    * Playwright starts the dev server and requires a 200 status to
@@ -15,7 +15,8 @@ export async function middleware(request: NextRequest) {
 
   if (
     pathname.startsWith('/api/auth') ||
-    pathname.startsWith('/api/create-invite')
+    pathname.startsWith('/api/create-invite') ||
+    pathname.startsWith('/invite')
   ) {
     return NextResponse.next();
   }
@@ -27,7 +28,7 @@ export async function middleware(request: NextRequest) {
   });
 
   if (!token) {
-    const redirectUrl = encodeURIComponent(request.url);
+    const redirectUrl = encodeURIComponent(`${pathname}${search}`);
     const inviteCode = request.nextUrl.searchParams.get('invite');
 
     if (inviteCode) {
