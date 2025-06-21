@@ -189,7 +189,7 @@ export function Chat({
 
   return (
     <>
-      <div className="flex flex-col min-w-0 h-dvh bg-background">
+      <div className="flex flex-col min-w-0 h-screen min-h-screen bg-background relative">
         <ChatHeader
           chatId={id}
           selectedModelId={initialChatModel}
@@ -211,7 +211,7 @@ export function Chat({
           isArtifactVisible={isArtifactVisible}
         />
 
-        <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+        <div className="flex-shrink-0 mx-auto px-2 sm:px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl safe-area-pb">
           {!isReadonly && (
             <MultimodalInput
               chatId={id}
@@ -229,7 +229,7 @@ export function Chat({
               selectedPromptId={selectedPromptId}
             />
           )}
-        </form>
+        </div>
       </div>
 
       <Artifact

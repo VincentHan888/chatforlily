@@ -38,7 +38,7 @@ function PureChatHeader({
   const { width: windowWidth } = useWindowSize();
 
   return (
-    <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2">
+    <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-1 sm:gap-2 z-10 border-b border-border/50 flex-shrink-0 overflow-x-auto">
       <SidebarToggle />
 
       {(!open || windowWidth < 768) && (
@@ -46,14 +46,14 @@ function PureChatHeader({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
-              className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
+              className="order-2 md:order-1 md:px-2 px-1 sm:px-2 md:h-fit ml-auto md:ml-0 text-xs sm:text-sm whitespace-nowrap"
               onClick={() => {
                 router.push('/');
                 router.refresh();
               }}
             >
               <PlusIcon />
-              <span className="md:sr-only">New Chat</span>
+              <span className="hidden sm:inline md:sr-only">New Chat</span>
             </Button>
           </TooltipTrigger>
           <TooltipContent>New Chat</TooltipContent>
@@ -64,7 +64,7 @@ function PureChatHeader({
         <ModelSelector
           session={session}
           selectedModelId={selectedModelId}
-          className="order-1 md:order-2"
+          className="order-1 md:order-2 flex-shrink-0"
         />
       )}
 
@@ -72,7 +72,7 @@ function PureChatHeader({
         <PromptSelector
           selectedPromptId={selectedPromptId}
           onPromptChange={onPromptChange}
-          className="order-1 md:order-3"
+          className="order-1 md:order-3 flex-shrink-0"
         />
       )}
 
@@ -80,12 +80,12 @@ function PureChatHeader({
         <VisibilitySelector
           chatId={chatId}
           selectedVisibilityType={selectedVisibilityType}
-          className="order-1 md:order-4"
+          className="order-1 md:order-4 flex-shrink-0"
         />
       )}
 
       <Button
-        className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden py-1.5 px-2 h-fit md:h-[34px] order-5 md:ml-auto"
+        className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden py-1.5 px-2 h-fit md:h-[34px] order-5 md:ml-auto whitespace-nowrap"
         asChild
       >
         <Link
@@ -93,7 +93,7 @@ function PureChatHeader({
           target="_noblank"
         >
           <VercelIcon size={16} />
-          Deploy with Vercel
+          <span className="hidden lg:inline">Deploy with Vercel</span>
         </Link>
       </Button>
     </header>

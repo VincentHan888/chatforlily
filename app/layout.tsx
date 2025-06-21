@@ -12,7 +12,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  maximumScale: 1, // Disable auto-zoom on mobile Safari
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false, // 防止用户缩放导致的布局问题
+  viewportFit: 'cover', // 支持iPhone X等设备的安全区域
 };
 
 const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';

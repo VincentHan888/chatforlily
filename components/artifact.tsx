@@ -326,7 +326,7 @@ function PureArtifact({
                   artifactStatus={artifact.status}
                 />
 
-                <form className="flex flex-row gap-2 relative items-end w-full px-4 pb-4">
+                <div className="flex flex-row gap-2 relative items-end w-full px-2 sm:px-4 pb-4 max-w-full">
                   <MultimodalInput
                     chatId={chatId}
                     input={input}
@@ -343,13 +343,13 @@ function PureArtifact({
                     selectedVisibilityType={selectedVisibilityType}
                     selectedPromptId={selectedPromptId}
                   />
-                </form>
+                </div>
               </div>
             </motion.div>
           )}
 
           <motion.div
-            className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll md:border-l dark:border-zinc-700 border-zinc-200"
+            className="fixed dark:bg-muted bg-background h-screen flex flex-col overflow-y-auto md:border-l dark:border-zinc-700 border-zinc-200 max-w-full"
             initial={
               isMobile
                 ? {
@@ -375,8 +375,8 @@ function PureArtifact({
                     opacity: 1,
                     x: 0,
                     y: 0,
-                    height: windowHeight,
-                    width: windowWidth ? windowWidth : 'calc(100dvw)',
+                    height: '100vh',
+                    width: '100vw',
                     borderRadius: 0,
                     transition: {
                       delay: 0,
@@ -393,7 +393,7 @@ function PureArtifact({
                     height: windowHeight,
                     width: windowWidth
                       ? windowWidth - 400
-                      : 'calc(100dvw-400px)',
+                      : 'calc(100vw - 400px)',
                     borderRadius: 0,
                     transition: {
                       delay: 0,
@@ -415,19 +415,21 @@ function PureArtifact({
               },
             }}
           >
-            <div className="p-2 flex flex-row justify-between items-start">
-              <div className="flex flex-row gap-4 items-start">
+            <div className="p-2 flex flex-row justify-between items-start flex-shrink-0 border-b border-border/50">
+              <div className="flex flex-row gap-2 sm:gap-4 items-start min-w-0 flex-1">
                 <ArtifactCloseButton />
 
-                <div className="flex flex-col">
-                  <div className="font-medium">{artifact.title}</div>
+                <div className="flex flex-col min-w-0 flex-1">
+                  <div className="font-medium text-sm sm:text-base truncate">
+                    {artifact.title}
+                  </div>
 
                   {isContentDirty ? (
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-xs sm:text-sm text-muted-foreground">
                       Saving changes...
                     </div>
                   ) : document ? (
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-xs sm:text-sm text-muted-foreground">
                       {`Updated ${formatDistance(
                         new Date(document.createdAt),
                         new Date(),
@@ -442,18 +444,20 @@ function PureArtifact({
                 </div>
               </div>
 
-              <ArtifactActions
-                artifact={artifact}
-                currentVersionIndex={currentVersionIndex}
-                handleVersionChange={handleVersionChange}
-                isCurrentVersion={isCurrentVersion}
-                mode={mode}
-                metadata={metadata}
-                setMetadata={setMetadata}
-              />
+              <div className="flex-shrink-0">
+                <ArtifactActions
+                  artifact={artifact}
+                  currentVersionIndex={currentVersionIndex}
+                  handleVersionChange={handleVersionChange}
+                  isCurrentVersion={isCurrentVersion}
+                  mode={mode}
+                  metadata={metadata}
+                  setMetadata={setMetadata}
+                />
+              </div>
             </div>
 
-            <div className="dark:bg-muted bg-background h-full overflow-y-scroll !max-w-full items-center">
+            <div className="dark:bg-muted bg-background flex-1 overflow-y-auto max-w-full">
               <artifactDefinition.content
                 title={artifact.title}
                 content={
