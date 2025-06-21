@@ -675,7 +675,7 @@ export async function validateInviteCode(code: string): Promise<{
 /**
  * 使用邀请码（增加使用次数）
  */
-export async function useInviteCode(code: string, userId: string) {
+export async function consumeInviteCode(code: string, userId: string) {
   try {
     const validation = await validateInviteCode(code);
 
@@ -740,7 +740,7 @@ export async function createGuestUserWithInviteCode(inviteCodeStr: string) {
       });
 
     // 使用邀请码
-    await useInviteCode(inviteCodeStr, newUser.id);
+    await consumeInviteCode(inviteCodeStr, newUser.id);
 
     return [newUser];
   } catch (error) {

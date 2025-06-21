@@ -17,12 +17,9 @@ export const viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
 };
 
-const geistSans = GeistSans;
-const geistMono = GeistMono;
-
 const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
 const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
-const THEME_COLOR_SCRIPT = `\
+const THEME_COLOR_SCRIPT = `\\
 (function() {
   var html = document.documentElement;
   var meta = document.querySelector('meta[name="theme-color"]');
@@ -48,12 +45,12 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      // `next-themes` injects an extra classname to the body element to avoid
-      // visual flicker before hydration. Hence the `suppressHydrationWarning`
+      // \`next-themes\` injects an extra classname to the body element to avoid
+      // visual flicker before hydration. Hence the \`suppressHydrationWarning\`
       // prop is necessary to avoid the React hydration mismatch warning.
       // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <head>
         <script

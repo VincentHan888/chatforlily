@@ -1,7 +1,7 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { artifactDefinitions } from './artifact';
 import type { ArtifactKind } from './artifact';
 import type { Suggestion } from '@/lib/db/schema';
@@ -34,70 +34,73 @@ export function DataStreamHandler({ id }: { id: string }) {
   }, [artifact]);
 
   // 统一处理单个 delta 的逻辑
-  function processDelta(delta: DataStreamDelta) {
-    const currentArtifact = artifactRef.current;
+  const processDelta = useCallback(
+    (delta: DataStreamDelta) => {
+      const currentArtifact = artifactRef.current;
 
-    const artifactDefinition = artifactDefinitions.find(
-      (def) => def.kind === currentArtifact.kind,
-    );
+      const artifactDefinition = artifactDefinitions.find(
+        (def) => def.kind === currentArtifact.kind,
+      );
 
-    if (artifactDefinition?.onStreamPart) {
-      artifactDefinition.onStreamPart({
-        streamPart: delta,
-        setArtifact,
-        setMetadata,
-      });
-    }
+      if (artifactDefinition?.onStreamPart) {
+        artifactDefinition.onStreamPart({
+          streamPart: delta,
+          setArtifact,
+          setMetadata,
+        });
+      }
 
-    // 仅处理与 artifact 元数据相关的特殊指令
-    if (
-      delta.type === 'id' ||
-      delta.type === 'title' ||
-      delta.type === 'kind' ||
-      delta.type === 'clear' ||
-      delta.type === 'finish'
-    ) {
-      setArtifact((draftArtifact) => {
-        if (!draftArtifact) {
-          return { ...initialArtifactData, status: 'streaming' };
-        }
+      // 仅处理与 artifact 元数据相关的特殊指令
+      if (
+        delta.type === 'id' ||
+        delta.type === 'title' ||
+        delta.type === 'kind' ||
+        delta.type === 'clear' ||
+        delta.type === 'finish'
+      ) {
+        setArtifact((draftArtifact) => {
+          if (!draftArtifact) {
+            return { ...initialArtifactData, status: 'streaming' };
+          }
 
-        switch (delta.type) {
-          case 'id':
-            return {
-              ...draftArtifact,
-              documentId: delta.content as string,
-              status: 'streaming',
-            };
-          case 'title':
-            return {
-              ...draftArtifact,
-              title: delta.content as string,
-              status: 'streaming',
-            };
-          case 'kind':
-            return {
-              ...draftArtifact,
-              kind: delta.content as ArtifactKind,
-              status: 'streaming',
-            };
-          case 'clear':
-            return {
-              ...draftArtifact,
-              content: '',
-              status: 'streaming',
-            };
-          case 'finish':
-            return {
-              ...draftArtifact,
-              status: 'idle',
-            };
-          default:
-            return draftArtifact;
-        }
-      });
-    }
-  }
+          switch (delta.type) {
+            case 'id':
+              return {
+                ...draftArtifact,
+                documentId: delta.content as string,
+                status: 'streaming',
+              };
+            case 'title':
+              return {
+                ...draftArtifact,
+                title: delta.content as string,
+                status: 'streaming',
+              };
+            case 'kind':
+              return {
+                ...draftArtifact,
+                kind: delta.content as ArtifactKind,
+                status: 'streaming',
+              };
+            case 'clear':
+              return {
+                ...draftArtifact,
+                content: '',
+                status: 'streaming',
+              };
+            case 'finish':
+              return {
+                ...draftArtifact,
+                status: 'idle',
+              };
+            default:
+              return draftArtifact;
+          }
+        });
+      }
+    },
+    [setArtifact, setMetadata],
+  );
 
   useEffect(() => {
     if (!dataStream?.length) return;

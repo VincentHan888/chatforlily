@@ -215,7 +215,7 @@ export default function AdminInvitePage() {
             disabled={loading}
           >
             <RefreshCw
-              className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`}
+              className={`size-4 mr-2 ${loading ? 'animate-spin' : ''}`}
             />
             刷新
           </Button>
@@ -223,7 +223,7 @@ export default function AdminInvitePage() {
             onClick={() => setShowCreateForm(true)}
             disabled={showCreateForm}
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="size-4 mr-2" />
             创建邀请码
           </Button>
         </div>
@@ -350,7 +350,7 @@ export default function AdminInvitePage() {
                             variant="outline"
                             onClick={() => copyInviteLink(inviteCode.code)}
                           >
-                            <Copy className="h-4 w-4" />
+                            <Copy className="size-4" />
                           </Button>
                           {inviteCode.isActive && (
                             <Button
@@ -358,7 +358,7 @@ export default function AdminInvitePage() {
                               variant="destructive"
                               onClick={() => disableInviteCode(inviteCode.code)}
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="size-4" />
                             </Button>
                           )}
                         </div>
