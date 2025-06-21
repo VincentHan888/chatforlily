@@ -1,7 +1,5 @@
 import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -50,7 +48,6 @@ export default async function RootLayout({
       // prop is necessary to avoid the React hydration mismatch warning.
       // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <head>
         <script

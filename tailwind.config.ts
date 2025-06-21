@@ -18,10 +18,6 @@ const config: Config = {
       animation: {
         'cursor-blink': 'cursor-blink 1.2s infinite steps(1, start)',
       },
-      fontFamily: {
-        sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
-      },
       screens: {
         'toast-mobile': '600px',
       },
